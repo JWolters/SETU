@@ -45,6 +45,12 @@ abstract class SETU {
 			$this->$property = $arguments[0];
 		} else if (isset($this->attributes[$property])) {
 			// TODO: validation based on CodeList
+			if (isset($this->attributes[$property]['codelist']) &&
+				isset($this->codelist[$this->attributes[$property]['codelist']]) &&
+				!in_array($arguments[0], $this->codelist[$this->attributes[$property]['codelist']])) {
+				throw new \Exception('Invalid value '.$arguments[0].' for attribute '.$property.' in '.get_class($this).
+					' ('.implode(',', $this->codelist[$this->attributes[$property]['codelist']]).')');
+			}
 			$this->attributes[$property]['value'] = $arguments[0];
 		} else {
 			throw new \Exception('Trying to set unknown property '.$property.' in '.get_class($this));
@@ -99,6 +105,13 @@ abstract class SETU {
 			$this->$propertyName = $value;
 
 		}
+
+		foreach ($this->attributes as $attribute) {
+			if (isset($attribute['codelist'])) {
+				$codelist = '\\SETU\\CodeList\\'.$attribute['codelist'];
+				$this->codelist[$attribute['codelist']] = $codelist::getList();
+			}
+		}
 	}
 
 	public function getDOMDocument() {
@@ -114,7 +127,6 @@ abstract class SETU {
 
 		foreach ($this->attributes as $attribute) {
 			if (!empty($attribute['value'])) {
-				// TODO: check for CodeList
 				$xmlRoot->setAttribute($attribute['attribute'], $attribute['value']);
 			}
 		}

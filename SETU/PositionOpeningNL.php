@@ -29,7 +29,8 @@ class PositionOpeningNL extends SETU {
 		*/
 		'VacancyLanguage' => array(
 			'attribute' => 'xml:lang',
-			'value'     => 'nl'
+			'value'     => 'nl',
+			'codelist'  => 'ISO\ISO6391'
 		)
 	);
 

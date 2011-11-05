@@ -18,10 +18,11 @@ spl_autoload_register(
 $PositionOpeningNL = new SETU\PositionOpeningNL();
 
 $PositionOpeningNL->NumberToFill(1);
+$PositionOpeningNL->VacancyLanguage('de');
 
 $PositionOpeningNL->PositionRecordInfo()->Id(1)->idOwner('owner');
 $PositionOpeningNL->PositionRecordInfo()->Id(1)->IdValue('123456');
-$PositionOpeningNL->PositionRecordInfo()->Status(SETU\CodeList\vacancyStatus::X_PUT);
+$PositionOpeningNL->PositionRecordInfo()->Status(SETU\CodeList\SETU\vacancyStatus::X_PUT);
 
 $PositionOpeningNL->PositionSupplierNL(1)->SuppliersIds()->SupplierId(1)->idOwner('owner');
 $PositionOpeningNL->PositionSupplierNL(1)->SuppliersIds()->SupplierId(1)->IdValue('123');
@@ -35,7 +36,7 @@ $PositionOpeningNL->PositionSupplierNL(1)->ContactMethod()->Telephone()->Formatt
 $PositionOpeningNL->PositionSupplierNL(1)->ContactMethod()->InternetEmailAddress('piet.janssen@bedrijfa.nl');
 $PositionOpeningNL->PositionSupplierNL(1)->ContactMethod()->SocialMedia()->SocialMedium(1)->SocialMediumParty('Linkedin');
 $PositionOpeningNL->PositionSupplierNL(1)->ContactMethod()->SocialMedia()->SocialMedium(1)->SocialMediumIdentifier('pietjansen');
-$PositionOpeningNL->PositionSupplierNL(1)->Role(SETU\CodeList\vacancyRoles::OWNER);
+$PositionOpeningNL->PositionSupplierNL(1)->Role(SETU\CodeList\SETU\vacancyRoles::OWNER);
 
 $PositionOpeningNL->PositionSupplierNL(2)->SuppliersIds()->SupplierId(1)->idOwner('owner');
 $PositionOpeningNL->PositionSupplierNL(2)->SuppliersIds()->SupplierId(1)->IdValue('a23b');
