@@ -1,0 +1,5 @@
+PostalAddress/PostalCode/Region: cardinality 0..1 or 0..inf
+
+PostalAddress/DeliveryAddress/AddressLine: available in figure 19 no description in table
+
+SocialMedia/SocialMedium: cardinality 1..n in stead of 1..inf
