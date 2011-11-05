@@ -17,7 +17,7 @@ class PositionRecordInfo extends \SETU\SETU {
 	 * Specification of reason for sending the vacancy-message. This field specifies the desired vacancy status by the
 	 * issuer.
 	 * Cardinality: 1
-	 * @uses VacancyStatus
+	 * SETU-CodeList: vacancyStatus
 	 * @var string
 	 */
 	protected $Status;

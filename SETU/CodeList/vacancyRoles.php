@@ -2,9 +2,9 @@
 /**
  * SETU codelist ‘vacancyRoles’
  */
-namespace SETU;
+namespace SETU\CodeList;
 
-class vacancyRoles {
+class vacancyRoles extends \SETU\CodeList {
 	const OWNER       = 'owner';
 	const RECRUITER   = 'recruiter';
 	const DISTRIBUTER = 'distributer';

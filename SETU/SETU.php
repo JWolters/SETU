@@ -9,10 +9,12 @@ abstract class SETU {
 	protected $attributes        = array();
 	protected $namespaces        = array();
 	protected $cardinality       = array();
+	protected $codelist          = array();
 	protected $privateProperties = array(
 		'attributes',
 		'namespaces',
 		'cardinality',
+		'codelist',
 		'privateProperties'
 	);
 
@@ -26,7 +28,8 @@ abstract class SETU {
 				// TODO: what happens with *?
 				if ($index < $this->cardinality[$property]['min'] ||
 					($this->cardinality[$property]['max'] != '*' && $index > $this->cardinality[$property]['max'])) {
-					throw new \Exception('Index out of bounds for property '.$property.'['.$index.'] in '.get_class($this));
+					throw new \Exception('Index out of bounds for property '.$property.'['.$index.'] in '.
+						get_class($this));
 				}
 				if (!isset($this->{$property}[$index])) {
 					$className = '\\'.get_class($this->{$property}[1]);
@@ -34,8 +37,14 @@ abstract class SETU {
 				}
 				return $this->{$property}[$index];
 			}
+			// validation based on CodeList
+			if (isset($this->codelist[$property]) && !in_array($arguments[0], $this->codelist[$property])) {
+				throw new \Exception('Invalid value '.$arguments[0].' for property '.$property.' in '.get_class($this).
+					' ('.implode(',', $this->codelist[$property]).')');
+			}
 			$this->$property = $arguments[0];
 		} else if (isset($this->attributes[$property])) {
+			// TODO: validation based on CodeList
 			$this->attributes[$property]['value'] = $arguments[0];
 		} else {
 			throw new \Exception('Trying to set unknown property '.$property.' in '.get_class($this));
@@ -65,6 +74,13 @@ abstract class SETU {
 			preg_match('/\*\sSETU-class:\s(.*)/i', $docComment, $class);
 			if (isset($class[1])) {
 				$reflectionClassName = $class[1];
+			}
+			// check codelist
+			$codelist = array();
+			preg_match('/\*\sSETU-codelist:\s(.*)/i', $docComment, $codelist);
+			if (isset($codelist[1])) {
+				$codelist = '\\SETU\\CodeList\\'.$codelist[1];
+				$this->codelist[$propertyName] = $codelist::getList();
 			}
 			try {
 				$max = $this->cardinality[$propertyName]['max'];
@@ -98,6 +114,7 @@ abstract class SETU {
 
 		foreach ($this->attributes as $attribute) {
 			if (!empty($attribute['value'])) {
+				// TODO: check for CodeList
 				$xmlRoot->setAttribute($attribute['attribute'], $attribute['value']);
 			}
 		}

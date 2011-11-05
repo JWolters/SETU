@@ -2,9 +2,9 @@
 /**
  * SETU codelist ‘recruiterType’
  */
-namespace SETU;
+namespace SETU\CodeList;
 
-class recruiterType {
+class recruiterType extends \SETU\CodeList {
 	const DIRECT       = 'direct';
 	const INTERMEDIARY = 'intermediary';
 	const MEDIA_AGENCY = 'media-agency';

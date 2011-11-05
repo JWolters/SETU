@@ -21,7 +21,7 @@ $PositionOpeningNL->NumberToFill(1);
 
 $PositionOpeningNL->PositionRecordInfo()->Id(1)->idOwner('owner');
 $PositionOpeningNL->PositionRecordInfo()->Id(1)->IdValue('123456');
-$PositionOpeningNL->PositionRecordInfo()->Status('x:post');
+$PositionOpeningNL->PositionRecordInfo()->Status(SETU\CodeList\vacancyStatus::X_PUT);
 
 $PositionOpeningNL->PositionSupplierNL(1)->SuppliersIds()->SupplierId(1)->idOwner('owner');
 $PositionOpeningNL->PositionSupplierNL(1)->SuppliersIds()->SupplierId(1)->IdValue('123');
@@ -35,12 +35,11 @@ $PositionOpeningNL->PositionSupplierNL(1)->ContactMethod()->Telephone()->Formatt
 $PositionOpeningNL->PositionSupplierNL(1)->ContactMethod()->InternetEmailAddress('piet.janssen@bedrijfa.nl');
 $PositionOpeningNL->PositionSupplierNL(1)->ContactMethod()->SocialMedia()->SocialMedium(1)->SocialMediumParty('Linkedin');
 $PositionOpeningNL->PositionSupplierNL(1)->ContactMethod()->SocialMedia()->SocialMedium(1)->SocialMediumIdentifier('pietjansen');
-$PositionOpeningNL->PositionSupplierNL(1)->Role('owner');
-
+$PositionOpeningNL->PositionSupplierNL(1)->Role(SETU\CodeList\vacancyRoles::OWNER);
 
 $PositionOpeningNL->PositionSupplierNL(2)->SuppliersIds()->SupplierId(1)->idOwner('owner');
 $PositionOpeningNL->PositionSupplierNL(2)->SuppliersIds()->SupplierId(1)->IdValue('a23b');
-$PositionOpeningNL->PositionSupplierNL(2)->SuppliersIds()->SupplierId(1)->idOwner('recruiter');
+$PositionOpeningNL->PositionSupplierNL(2)->SuppliersIds()->SupplierId(1)->idOwner('recruiterd'); // should give exception
 $PositionOpeningNL->PositionSupplierNL(2)->SuppliersIds()->SupplierId(1)->IdValue('1');
 $PositionOpeningNL->PositionSupplierNL(2)->SuppliersIds()->SupplierId(2)->idOwner('KVK');
 $PositionOpeningNL->PositionSupplierNL(2)->SuppliersIds()->SupplierId(2)->IdValue('NL33136652');;
@@ -65,7 +64,6 @@ $PositionOpeningNL->PositionSupplierNL(2)->ContactPersons()->ContactPerson(2)->C
 $PositionOpeningNL->PositionSupplierNL(2)->ContactPersons()->ContactPerson(2)->ContactMethod()->SocialMedia()->SocialMedium(1)->SocialMediumParty('Linkedin');
 $PositionOpeningNL->PositionSupplierNL(2)->ContactPersons()->ContactPerson(2)->ContactMethod()->SocialMedia()->SocialMedium(1)->SocialMediumIdentifier('recruiter2');
 $PositionOpeningNL->PositionSupplierNL(2)->Role('recruiter');
-
 
 var_dump($PositionOpeningNL->getDOMDocument()->saveXML());
 //var_dump($PositionOpeningNL);
