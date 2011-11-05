@@ -14,7 +14,7 @@ class ContactPerson extends \SETU\SETU {
 	 */
 	protected $ContactName;
 	/**
-	 * SETU-class: \SETU\PositionOpeningNL\PositionSupplierNL\ContactMethod
+	 * SETU-class: \SETU\ContactMethod
 	 * Cardinality: 0..1
 	 * @var
 	 */

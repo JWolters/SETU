@@ -3,7 +3,7 @@
  *
  */
 
-namespace SETU\PositionOpeningNL\PositionSupplierNL\ContactMethod\SocialMedia;
+namespace SETU\ContactMethod\SocialMedia;
 
 class SocialMedium extends \SETU\SETU {
 

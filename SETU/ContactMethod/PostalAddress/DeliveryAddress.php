@@ -3,7 +3,7 @@
  *
  */
 
-namespace SETU\PositionOpeningNL\PositionSupplierNL\ContactMethod\PostalAddress;
+namespace SETU\ContactMethod\PostalAddress;
 
 class DeliveryAddress extends \SETU\SETU {
 

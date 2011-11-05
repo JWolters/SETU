@@ -29,6 +29,7 @@ class PositionSupplierNL extends \SETU\SETU {
 	 * Specification of how to reach the contactpoint. This container can contain an address,
 	 * emailaddress, telephone number, mobile phone number and/or a facsimile number.
 	 * Cardinality: 0..1
+	 * SETU-class: \SETU\ContactMethod
 	 * @var
 	 */
 	protected $ContactMethod;

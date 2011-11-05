@@ -3,7 +3,7 @@
  *
  */
 
-namespace SETU\PositionOpeningNL\PositionSupplierNL;
+namespace SETU;
 
 class ContactMethod extends \SETU\SETU {
 
