@@ -6,9 +6,15 @@ namespace SETU;
 
 abstract class SETU {
 
-	protected $attributes  = array();
-	protected $namespaces  = array();
-	protected $cardinality = array();
+	protected $attributes        = array();
+	protected $namespaces        = array();
+	protected $cardinality       = array();
+	protected $privateProperties = array(
+		'attributes',
+		'namespaces',
+		'cardinality',
+		'privateProperties'
+	);
 
 	public function __call($property, $arguments) {
 		if (property_exists($this, $property)) {
@@ -49,11 +55,17 @@ abstract class SETU {
 			$docComment = $property->getDocComment();
 			$cardinality = array();
 			preg_match('/\*\sCardinality:\s(\d)\.?\.?([\d\*])?/i', $docComment, $cardinality);
-
+			// TODO: Exception if cardinality not found
 			$this->cardinality[$propertyName] = array(
 				'min' => $cardinality[1],
 				'max' => isset($cardinality[2]) ? $cardinality[2] : $cardinality[1]
 			);
+			// check class-name
+			$class = array();
+			preg_match('/\*\sSETU-class:\s(.*)/i', $docComment, $class);
+			if (isset($class[1])) {
+				$reflectionClassName = $class[1];
+			}
 			try {
 				$max = $this->cardinality[$propertyName]['max'];
 				if ($max != 1) {
@@ -95,6 +107,7 @@ abstract class SETU {
 
 			if (is_array($this->$propertyName)) {
 				foreach ($this->$propertyName as $childProperty) {
+					// TODO: check cardinality for element:0..1 and subelement: 1
 					if ($childProperty instanceof SETU) {
 						$element = $childProperty->getDOMDocument();
 						if (!($this->cardinality[$propertyName]['min'] == 0 && $element->firstChild->childNodes->length == 0)) {
@@ -127,12 +140,8 @@ abstract class SETU {
 		$reflection = new \ReflectionClass(get_class($this));
 		$properties = $reflection->getProperties(\ReflectionProperty::IS_PROTECTED);
 		foreach ($properties as $index => $property) {
-			switch($property->name) {
-				case 'attributes':
-				case 'namespaces':
-				case 'cardinality':
-					unset($properties[$index]);
-					break;
+			if (in_array($property->name, $this->privateProperties)) {
+				unset($properties[$index]);
 			}
 		}
 		return $properties;

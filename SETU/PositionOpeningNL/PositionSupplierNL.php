@@ -33,10 +33,19 @@ class PositionSupplierNL extends \SETU\SETU {
 	 */
 	protected $ContactMethod;
 	/**
+	 * Specification the role the specified information applies to.
 	 * Cardinality: 1
+	 * @uses vacancyRoles
 	 * @var
 	 */
 	protected $Role;
+	/**
+	 * The type of recruiter that is working for the owner of the vacancy.
+	 * Cardinality: 0..1
+	 * @uses recruiterType
+	 * @var
+	 */
+	protected $RecruiterType;
 	/**
 	 * Cardinality: 1
 	 * @var

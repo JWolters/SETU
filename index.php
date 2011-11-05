@@ -54,7 +54,18 @@ $PositionOpeningNL->PositionSupplierNL(2)->ContactMethod()->SocialMedia()->Socia
 $PositionOpeningNL->PositionSupplierNL(2)->ContactMethod()->SocialMedia()->SocialMedium(1)->SocialMediumIdentifier('henkpietersen');
 
 $PositionOpeningNL->PositionSupplierNL(2)->ContactPersons()->ContactPerson(1)->ContactName('Recruiter 1');
+$PositionOpeningNL->PositionSupplierNL(2)->ContactPersons()->ContactPerson(1)->ContactMethod()->Telephone()->FormattedNumber('+31234789524');
+$PositionOpeningNL->PositionSupplierNL(2)->ContactPersons()->ContactPerson(1)->ContactMethod()->InternetEmailAddress('recruiter1@recruitmentbedrijfb.nl');
+$PositionOpeningNL->PositionSupplierNL(2)->ContactPersons()->ContactPerson(1)->ContactMethod()->SocialMedia()->SocialMedium(1)->SocialMediumParty('Linkedin');
+$PositionOpeningNL->PositionSupplierNL(2)->ContactPersons()->ContactPerson(1)->ContactMethod()->SocialMedia()->SocialMedium(1)->SocialMediumIdentifier('recruiter1');
+
 $PositionOpeningNL->PositionSupplierNL(2)->ContactPersons()->ContactPerson(2)->ContactName('Recruiter 2');
+$PositionOpeningNL->PositionSupplierNL(2)->ContactPersons()->ContactPerson(2)->ContactMethod()->Telephone()->FormattedNumber('+31234789525');
+$PositionOpeningNL->PositionSupplierNL(2)->ContactPersons()->ContactPerson(2)->ContactMethod()->InternetEmailAddress('recruiter2@recruitmentbedrijfb.nl');
+$PositionOpeningNL->PositionSupplierNL(2)->ContactPersons()->ContactPerson(2)->ContactMethod()->SocialMedia()->SocialMedium(1)->SocialMediumParty('Linkedin');
+$PositionOpeningNL->PositionSupplierNL(2)->ContactPersons()->ContactPerson(2)->ContactMethod()->SocialMedia()->SocialMedium(1)->SocialMediumIdentifier('recruiter2');
+$PositionOpeningNL->PositionSupplierNL(2)->Role('recruiter');
+
 
 var_dump($PositionOpeningNL->getDOMDocument()->saveXML());
 //var_dump($PositionOpeningNL);
