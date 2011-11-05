@@ -2,9 +2,10 @@
 /**
  * SETU codelist ‘vacancyIdOwner’
  */
-namespace SETU\CodeList;
+namespace SETU\CodeList\SETU;
 
 class vacancyIdOwner extends \SETU\CodeList {
+
 	Const OWNER       = 'owner';
 	Const RECRUITER   = 'recruiter';
 	Const DISTRIBUTER = 'distributer';

@@ -2,8 +2,10 @@
 /**
  * SETU codelist ‘contractFeatures’
  */
-namespace SETU\CodeList;
+namespace SETU\CodeList\SETU;
 
 class contractFeatures extends \SETU\CodeList {
+
 	const NIGHTSHIFT = 'Nightshift';
+
 }

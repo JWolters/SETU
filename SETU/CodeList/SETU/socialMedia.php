@@ -2,7 +2,7 @@
 /**
  * SETU codelist ‘SocialMedia’
  */
-namespace SETU\CodeList;
+namespace SETU\CodeList\SETU;
 
 class socialMedia extends \SETU\CodeList {
 

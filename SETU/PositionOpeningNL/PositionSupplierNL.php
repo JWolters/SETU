@@ -36,14 +36,14 @@ class PositionSupplierNL extends \SETU\SETU {
 	/**
 	 * Specification the role the specified information applies to.
 	 * Cardinality: 1
-	 * SETU-CodeList: vacancyRoles
+	 * SETU-CodeList: SETU\vacancyRoles
 	 * @var
 	 */
 	protected $Role;
 	/**
 	 * The type of recruiter that is working for the owner of the vacancy.
 	 * Cardinality: 0..1
-	 * SETU-CodeList: recruiterType
+	 * SETU-CodeList: SETU\recruiterType
 	 * @var
 	 */
 	protected $RecruiterType;
