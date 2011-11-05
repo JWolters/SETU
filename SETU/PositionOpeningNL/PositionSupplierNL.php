@@ -47,5 +47,10 @@ class PositionSupplierNL extends \SETU\SETU {
 	 * @var
 	 */
 	protected $Organization;
+	/**
+	 * Cardinality: 0..1
+	 * @var
+	 */
+	protected $ContactPersons;
 
 }

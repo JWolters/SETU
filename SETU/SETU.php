@@ -10,15 +10,29 @@ abstract class SETU {
 	protected $namespaces  = array();
 	protected $cardinality = array();
 
-	public function __call($method, $arguments) {
-		var_dump($method, $arguments);
-		if (property_exists($this, $method)) {
-			if ($this->$method instanceof SETU) {
-				return $this->$method;
-			} else if (is_array($this->$method)) {
-				return $this->{$method}[$arguments[0]];
+	public function __call($property, $arguments) {
+		if (property_exists($this, $property)) {
+			if ($this->$property instanceof SETU) {
+				return $this->$property;
+			} else if (is_array($this->$property)) {
+				// check cardinality
+				$index = (int)$arguments[0];
+				// TODO: what happens with *?
+				if ($index < $this->cardinality[$property]['min'] ||
+					($this->cardinality[$property]['max'] != '*' && $index > $this->cardinality[$property]['max'])) {
+					throw new \Exception('Index out of bounds for property '.$property.'['.$index.'] in '.get_class($this));
+				}
+				if (!isset($this->{$property}[$index])) {
+					$className = '\\'.get_class($this->{$property}[1]);
+					$this->{$property}[$index] = new $className;
+				}
+				return $this->{$property}[$index];
 			}
-			$this->$method = $arguments[0];
+			$this->$property = $arguments[0];
+		} else if (isset($this->attributes[$property])) {
+			$this->attributes[$property]['value'] = $arguments[0];
+		} else {
+			throw new \Exception('Trying to set unknown property '.$property.' in '.get_class($this));
 		}
 	}
 
@@ -40,15 +54,12 @@ abstract class SETU {
 				'min' => $cardinality[1],
 				'max' => isset($cardinality[2]) ? $cardinality[2] : $cardinality[1]
 			);
-
 			try {
 				$max = $this->cardinality[$propertyName]['max'];
 				if ($max != 1) {
-					// TODO: how to allow * (∞)?
-					if ($max == '*') {
-						$max = 1;
-					}
-					$value = array_fill(1, $max, new $reflectionClassName());
+					$value = array(
+						1 => new $reflectionClassName()
+					);
 				} else {
 					$value = new $reflectionClassName();
 				}
@@ -56,6 +67,7 @@ abstract class SETU {
 			} catch (\Exception $e) {
 				$value = null;
 			}
+
 			$this->$propertyName = $value;
 
 		}
@@ -66,6 +78,7 @@ abstract class SETU {
 		$domDocument->formatOutput = true;
 
 		$className = get_class($this);
+//echo 'getDOMDocument for '.$className.PHP_EOL;
 		// strip namespaces
 		$className = substr($className, 1 + strrpos($className, '\\'));
 
@@ -84,24 +97,24 @@ abstract class SETU {
 				foreach ($this->$propertyName as $childProperty) {
 					if ($childProperty instanceof SETU) {
 						$element = $childProperty->getDOMDocument();
-						$element = $domDocument->importNode($element->documentElement, true);
-						// TODO: check cardinality?
-						$xmlRoot->appendChild($element);
+						if (!($this->cardinality[$propertyName]['min'] == 0 && $element->firstChild->childNodes->length == 0)) {
+							$element = $domDocument->importNode($element->documentElement, true);
+							$xmlRoot->appendChild($element);
+						}
 					}
 				}
 			} else if ($this->$propertyName instanceof SETU) {
 				$element = $this->$propertyName->getDOMDocument();
-				$element = $domDocument->importNode($element->documentElement, true);
-				$xmlRoot->appendChild($element);
+				if (!($this->cardinality[$propertyName]['min'] == 0 && $element->firstChild->childNodes->length == 0)) {
+					$element = $domDocument->importNode($element->documentElement, true);
+					$xmlRoot->appendChild($element);
+				}
 			} else {
-				$element = $domDocument->createElement($propertyName, $this->$propertyName);
-				$xmlRoot->appendChild($element);
+				if (!($this->cardinality[$propertyName]['min'] == 0 && empty($this->$propertyName))) {
+					$element = $domDocument->createElement($propertyName, $this->$propertyName);
+					$xmlRoot->appendChild($element);
+				}
 			}
-			// TODO: check cardinality
-//			if (!($this->cardinality[$propertyName] == 0 && $element->childNodes->length == 0)) {
-//				$xmlRoot->appendChild($element);
-//			}
-
 		}
 
 		// TODO: check cardinality?
@@ -123,57 +136,6 @@ abstract class SETU {
 			}
 		}
 		return $properties;
-	}
-
-}
-
-class SETU2 {
-
-	private $XML;
-	private $xmlRoot;
-
-	public function __construct() {
-
-		$this->XML = new DomDocument('1.0', 'UTF-8');
-		$this->XML->formatOutput = true;
-
-		$className = get_class($this);
-
-		$this->xmlRoot = $this->XML->createElement(
-			substr($className, 1 + strlen(__NAMESPACE__))
-		);
-
-		$reflection = new \ReflectionClass($className);
-		$properties = $reflection->getProperties(\ReflectionProperty::IS_PRIVATE);
-
-		foreach ($properties as $property) {
-			try {
-				$reflectionClassName = __NAMESPACE__.'\\'.$property->name;
-				$reflectionClass = new $reflectionClassName();
-
-				$element = $reflectionClass->getXML();
-
-				if ($element->hasChildNodes() == false) {
-					throw new \Exception();
-				}
-				$element = $this->XML->importNode($element->documentElement, true);
-			} catch (\Exception $e) {
-				$element = $this->XML->createElement($property->name);
-			}
-			$this->xmlRoot->appendChild($element);
-
-
-		}
-
-		$this->XML->appendChild($this->xmlRoot);
-	}
-
-	public function __toString() {
-		return $this->XML->saveXML();
-	}
-
-	public function getXML() {
-		return $this->XML;
 	}
 
 }

@@ -15,7 +15,7 @@ class Id extends \SETU\SETU {
 		 */
 		'idOwner' => array(
 			'attribute' => 'idOwner',
-			'value'     => 'owner'
+			'value'     => null
 		)
 	);
 	/**

@@ -11,7 +11,7 @@ class SupplierId extends \SETU\SETU {
 		/**
 		 * Role of the issuer of the identifier.
 		 */
-		'vacancyIdOwner' => array(
+		'idOwner' => array(
 			'attribute' => 'idOwner',
 			// Permitted values: owner, recruiter, distributer, publicist, KVK, OIN, BTW, Fi
 			'value'     => 'owner'
@@ -26,7 +26,7 @@ class SupplierId extends \SETU\SETU {
 		)
 	);
 	/**
-	 * Cardinality: 1..*
+	 * Cardinality: 1..*?
 	 * @var
 	 */
 	protected $IdValue;
